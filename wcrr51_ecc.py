@@ -49,11 +49,23 @@ def decimalToVector(n,r):
     return v
 
 
+def getK(r):
+    return (2 ** r) - r - 1
+
+
 def message(a):
-    return []
+    l = len(a)
+    r = 2
+    k = 1
+    while True:
+        k = getK(r)
+        if not k - r < l: break
+        r += 1
+    l_bin = decimalToVector(l, r)
+    return [(l_bin[i] if i < r else (a[i - r] if i < r + l else 0)) for i in range(k)]
 
 
-def hammingEndocde(m):
+def hammingEndocder(m):
     return []
 
 
@@ -66,7 +78,21 @@ def messageFromCodeword(c):
 
 
 def dataFromMessage(m):
-    return []
+    r = 2
+    k = 1
+    while True:
+        k = getK(r)
+        if len(m) == k:
+            break
+        elif len(m) < k:
+            return []
+        r += 1
+
+    l = sum(m[i] * (2 ** (r - i - 1)) for i in range(r))
+    if l > k - r:
+        return []
+
+    return [m[i] for i in range(r, r + l)]
 
 
 def repetitionEncoder(m, n):
@@ -78,4 +104,14 @@ def repetitionDecode(v):
 
 
 if __name__ == '__main__':
-    pass
+    print(dataFromMessage(message([1])) == [1])
+    print(dataFromMessage(message([0, 0, 1])) == [0, 0, 1])
+    print(dataFromMessage(message([0, 1, 1, 0])) == [0, 1, 1, 0])
+    print(dataFromMessage(message([1, 1, 1, 1, 0, 1])) == [1, 1, 1, 1, 0, 1])
+    print(dataFromMessage(message([0, 1, 1, 0, 1])) == [0, 1, 1, 0, 1])
+    
+    print(dataFromMessage([1, 0, 0, 1, 1, 0, 1, 0]))
+    print(dataFromMessage([1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0]))
+    print(dataFromMessage([0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0]))
+    #print(dataFromMessage(message([0, 1, 1, 0, 1])))
+
