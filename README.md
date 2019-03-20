@@ -1,3 +1,3 @@
 # ErrorCorrectingCodes
 
-Solution for first summitive of the Computational Thinking module (handed in and marked).
+Solution for first summitive of the Computational Thinking module (now handed in and marked).
